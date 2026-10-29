@@ -1,0 +1,50 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+	id 'org.jetbrains.kotlin.jvm' version "${kotlin_version}"
+}
+
+base {
+	archivesName = 'CrystalNucleusGamble'
+}
+
+repositories {
+	mavenCentral()
+}
+
+def skyoceanDir = file(project.property('skyocean_dir'))
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	// Compile against the exact SkyOcean build you play with, plus the libraries it ships
+	// (skyblock-api, meowdding-lib, olympus, ...). They are NOT bundled into this mod:
+	// at runtime SkyOcean itself provides them, so SkyOcean must be installed.
+	compileOnly files(new File(skyoceanDir, project.property('skyocean_jar')))
+	compileOnly fileTree(dir: new File(skyoceanDir, "${project.property('skyocean_unpacked')}/META-INF/jars"), include: '*.jar')
+}
+
+processResources {
+	def version = project.version
+	inputs.property 'version', version
+
+	filesMatching('fabric.mod.json') {
+		expand 'version': version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+}
+
+kotlin {
+	compilerOptions {
+		jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25
+	}
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}

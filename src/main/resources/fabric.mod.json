@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "crystalnucleusgamble",
+  "version": "${version}",
+  "name": "Crystal Nucleus Gamble",
+  "description": "CS:GO style case opening for your Crystal Nucleus loot. Purely visual and client side: it only reads the loot message in chat and draws an animation. Built on SkyOcean.",
+  "authors": ["Robert"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      {
+        "value": "me.cngamble.CrystalNucleusGamble",
+        "adapter": "kotlin"
+      }
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": "~26.2",
+    "java": ">=25",
+    "fabric-api": "*",
+    "fabric-language-kotlin": ">=1.13.12+kotlin.2.4.0",
+    "skyocean": ">=1.18.2",
+    "skyblock-api": ">=4.2.41"
+  }
+}
